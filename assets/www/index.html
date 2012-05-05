@@ -1,0 +1,122 @@
+<!-- Copyright (c) 2012 Mobile Developer Solutions -->
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="Content-type" name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width">
+    <title></title>
+
+	<link rel="stylesheet" href="index.css" /> 
+	<script type="text/javascript" charset="utf-8" src="cordova-1.6.1.js"></script>
+  </head>
+  
+ <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
+
+<meta charset=utf-8 />
+<title>JS Bin</title>
+<style>
+  article, aside, figure, footer, header, hgroup, 
+  menu, nav, section { display: block; }
+</style>
+</head>
+<body>
+
+      <div id="tabs" style="font-size:11px; border:none;">
+      <ul>
+                <li><a href="#pre_loaded">Camera App</a></li>
+                <li><a href="#clock"><span>Clock</span></a></li>
+                <li><a href="#facebook"><span>Facebook</span></a></li>                
+                <li><a href="#google">Google</a></li>
+      </ul>
+            
+            <div id="pre_loaded">
+                 <script type="text/javascript" charset="utf-8">
+
+    // Called when capture operation is finished
+    //
+    function captureSuccess(mediaFiles) {
+    	alert('Captured');
+        var i, len;
+        for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+            uploadFile(mediaFiles[i]);
+        }       
+    }
+
+    // Called if something bad happens.
+    // 
+    function captureError(error) {
+        var msg = 'An error occurred during capture: ' + error.code;
+        navigator.notification.alert(msg, null, 'Uh oh!');
+    }
+
+    // A button will call this function
+    //
+    function captureImage() {
+        // Launch device camera application, 
+        // allowing user to capture up to 2 images
+        navigator.device.capture.captureImage(captureSuccess, captureError, {limit: 1});
+        
+    }
+
+    // Upload files to server
+    function uploadFile(mediaFile) {
+        var ft = new FileTransfer(),
+            path = mediaFile.fullPath,
+            name = mediaFile.name;
+
+        ft.upload(path,
+            "http://192.168.1.6/uploads.php", 
+            function(r) {	
+            	console.log("Code = " + r.responseCode);
+                console.log("Response = " + r.response);
+                console.log("Sent = " + r.bytesSent);
+                alert('Successfully Uploaded : Size is ' + r.bytesSent + '.');
+            },
+            function(error) {
+                console.log('Error uploading file ' + path + ': ' + error.code);
+            },
+            { fileName: name });   
+    }
+
+    </script>
+    </head>
+    <body>
+        <button onclick="captureImage();">Capture Image</button> <br>
+            </div>    
+      
+                  <div id="clock">
+              <iframe src="http://free.timeanddate.com/clock/i33e3pjl/n438/tt0/tw0/tm1/ts1/tb4" frameborder="0" width="88" height="34"></iframe>
+            </div>    
+      
+                  <div id="facebook">
+              <iframe src="http://www.facebook.com/apps/application.php?id=370463559630703" frameborder="0" width="88" height="34"></iframe>
+            </div>    
+      
+                  <div id="google"> 
+                  <script type="text/javascript">
+              $(document).ready(function(){
+    	      $('#google').load("http://www.google.co.in/webhp");
+				})
+		</script>
+             </div>
+  				
+    </div>
+  
+  
+<script>
+$(function() {
+    $( "#tabs" ).tabs({
+
+    });
+});
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+    	$('#content').load("http://www.ubuntu.com");
+})
+</script>
+
+</body>
+</html>
